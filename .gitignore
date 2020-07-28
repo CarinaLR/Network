@@ -9,3 +9,6 @@ venv/
 
 # VSCODE
 .vscode/
+
+#db
+*.sqlite3

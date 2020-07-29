@@ -8,12 +8,12 @@ body {
   margin: 10;
   height: 100vh;
   width: 100vw;
-  background: MistyRose;
+  background: #f0f8ff;
 }
 
 textarea {
   min-height: 100px;
-  min-width: 600px;
+  min-width: 1350px;
 }
 
 h3 {
@@ -22,19 +22,14 @@ h3 {
 
 /* ids */
 
-#compose-post {
-  display: block;
-  font: 0.875rem, Arial, Helvetica, sans-serif;
-  direction: ltr;
-  border-spacing: 0;
-  border-collapse: collapse;
-  background-color: transparent;
-  height: content-box;
-  width: content-box;
-  padding-right: 25px;
-  padding-left: 25px;
-  justify-content: center;
-}
+/* #compose-post {
+  padding: 30px;
+  margin: 10px;
+  border-style: outset;
+  clear: both;
+  vertical-align: inherit;
+  border-collapse: separate;
+} */
 
 #titleLink {
   width: 100%;
@@ -49,7 +44,16 @@ h3 {
   display: flex;
   align-items: flex-start;
   justify-content: left;
-  padding: 10px;
+  padding: 5px;
 }
 
 /* class */
+
+.compose-post {
+  padding: 30px;
+  margin: 10px;
+  border-style: outset;
+  clear: both;
+  vertical-align: inherit;
+  border-collapse: separate;
+}

@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Post
 
 
 def index(request):
@@ -72,4 +72,11 @@ def follow(request):
 
 
 def posts(request):
-    return render(request, "network/all_posts.html")
+    username = request.user.username
+    print("username", username)
+    content = request.POST.get("content")
+
+    return render(request, "network/all_posts.html", {
+        "post": content,
+        "username": username
+    })

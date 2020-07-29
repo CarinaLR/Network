@@ -3,15 +3,19 @@
 
 {% block body %}
     <h1 id="titleLink">All Posts</h1>
-    <h3 id="titlePage"> New Post </h3>
     <hr>
-    <div id="compose-post">
-    <form id="post-form" class="form-group" method="post">
-    {% csrf_token %}
+    <div class="compose-post">
+    <h3 id="titlePage"> New Post </h3>
+    <form id="post-form" class="form-group">
     <textarea id="content" class="form-group"></textarea>
     <br>
-    <input id="post-button" type="submit" class="btn btn-primary"/>
+    <input id="post-button" type="submit" class="btn btn-primary" value="Post"/>
     </form>
+    </div>
+    <br>
+    <div class="compose-post">
+    <h3 id="titlePage">{{ username }}</h3>
+    <p>{{ content }}</p>
     </div>
 {% endblock %}
 {% block script %}

@@ -62,6 +62,14 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+# Connect to /follow route
+
 
 def follow(request):
     return HttpResponseRedirect(reverse("index"))
+
+# Connect to /posts route
+
+
+def posts(request):
+    return render(request, "network/all_posts.html")

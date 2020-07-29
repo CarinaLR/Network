@@ -1,0 +1,55 @@
+/* tags */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", arial, sans-serif;
+  margin: 10;
+  height: 100vh;
+  width: 100vw;
+  background: MistyRose;
+}
+
+textarea {
+  min-height: 100px;
+  min-width: 600px;
+}
+
+h3 {
+  margin: 0.5em 0;
+}
+
+/* ids */
+
+#compose-post {
+  display: block;
+  font: 0.875rem, Arial, Helvetica, sans-serif;
+  direction: ltr;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+  height: content-box;
+  width: content-box;
+  padding-right: 25px;
+  padding-left: 25px;
+  justify-content: center;
+}
+
+#titleLink {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: left;
+  padding: 10px;
+}
+
+#titlePage {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: left;
+  padding: 10px;
+}
+
+/* class */

@@ -11,16 +11,15 @@ class Post(models.Model):
         "User", default=1, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    sent = models.ManyToManyField("User", related_name="post_sent")
     likes = models.ManyToManyField(
         'User', default=None, blank=True, related_name='likes')
 
     def user_posts(self):
         return {
             "id": self.id,
+            "owner": self.username,
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
-            "sent": [username.post for username in self.sent.all()],
             "likes": self.likes.all().count()
         }
 

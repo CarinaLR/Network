@@ -10,7 +10,6 @@ from .models import User, Post, Like, Follow
 
 
 def index(request):
-    posts = Post.objects.all().order_by('id').reverse()
     return render(request, "network/index.html")
 
 
@@ -82,27 +81,24 @@ def following(request):
 
 @login_required
 def posts(request):
-    # Get current user info
+    # Set variables and current values
     username = request.user.username
-    print("username", username)
     content = request.POST.get("content")
-    print("content", content)
     post = request.POST.get("post")
     if request.method == 'POST':
         if post:
-            # Get current content for post
+            # Get new content for post
             new_content = request.POST.get("content")
-            print("new_content", new_content)
             # Get content and save as post
             post = Post.objects.create(content=new_content)
             post.save()
-            print(JsonResponse(
-                {"message": "Email sent successfully."}, status=201))
-            user_post = get_object_or_404(
-                Post, content=request.POST.get('content'))
+            print("post-all ->", post)
+            print("post_id ->", post.id)
+            print("post ->", post.content)
+            print("user -> post ->", post.username)
             return render(request, "network/all_posts.html", {
-                "username": username,
-                "content": new_content
+                "username": post.username,
+                "content": post.content
             })
     return render(request, "network/all_posts.html", {
         "username": username,

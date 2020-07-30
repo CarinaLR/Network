@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
@@ -95,11 +96,35 @@ def posts(request):
             # Get content and save as post
             post = Post.objects.create(content=new_content)
             post.save()
+            print(JsonResponse(
+                {"message": "Email sent successfully."}, status=201))
+            user_post = get_object_or_404(
+                Post, content=request.POST.get('content'))
             return render(request, "network/all_posts.html", {
                 "username": username,
                 "content": new_content
             })
-
     return render(request, "network/all_posts.html", {
         "username": username,
     })
+
+
+@login_required
+def post(request, post_id):
+
+    # Query for requested post
+    try:
+        post = Post.objects.get(username=request.user, pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    # Return post contents
+    if request.method == "GET":
+        return JsonResponse(post.user_posts())
+
+    # Post must be via GET or PUT
+    else:
+        return JsonResponse({
+            "error": "GET or PUT request required."
+        }, status=400)
+    return HttpResponseRedirect(reverse("index"))

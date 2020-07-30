@@ -84,16 +84,22 @@ def posts(request):
     # Get current user info
     username = request.user.username
     print("username", username)
+    content = request.POST.get("content")
+    print("content", content)
+    post = request.POST.get("post")
     if request.method == 'POST':
-        user = get_object_or_404(User, username=username)
-        content = request.POST["content"]
-        try:
-            post = Post.objects.create(content=content, username=user)
+        if post:
+            # Get current content for post
+            new_content = request.POST.get("content")
+            print("new_content", new_content)
+            # Get content and save as post
+            post = Post.objects.create(content=new_content)
             post.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        except:
-            pass
-    else:
-        return render(request, "network/all_posts.html", {
-            "username": username,
-        })
+            return render(request, "network/all_posts.html", {
+                "username": username,
+                "content": new_content
+            })
+
+    return render(request, "network/all_posts.html", {
+        "username": username,
+    })

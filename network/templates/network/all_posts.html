@@ -6,7 +6,8 @@
     <hr>
     <div class="compose-post">
     <h3 id="titlePage"> New Post </h3>
-    <form id="post-form" class="form-group">
+    <form id="post-form" class="form-group" method="POST">
+    {% csrf_token %}
     <textarea id="content" class="form-group"></textarea>
     <br>
     <input id="post-button" type="submit" class="btn btn-primary" value="Post"/>

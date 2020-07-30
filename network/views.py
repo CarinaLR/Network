@@ -1,13 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Like, Follow
 
 
 def index(request):
+    posts = Post.objects.all().order_by('id').reverse()
     return render(request, "network/index.html")
 
 
@@ -62,21 +64,36 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-# Connect to /follow route
+# Connect to /profile route
 
 
-def follow(request):
+def profile(request):
+    return HttpResponseRedirect(reverse("index"))
+
+# Connect to /following route
+
+
+def following(request):
     return HttpResponseRedirect(reverse("index"))
 
 # Connect to /posts route
 
 
+@login_required
 def posts(request):
+    # Get current user info
     username = request.user.username
     print("username", username)
-    content = request.POST.get("content")
-
-    return render(request, "network/all_posts.html", {
-        "post": content,
-        "username": username
-    })
+    if request.method == 'POST':
+        user = get_object_or_404(User, username=username)
+        content = request.POST["content"]
+        try:
+            post = Post.objects.create(content=content, username=user)
+            post.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        except:
+            pass
+    else:
+        return render(request, "network/all_posts.html", {
+            "username": username,
+        })

@@ -8,18 +8,30 @@ class User(AbstractUser):
 
 class Post(models.Model):
     username = models.ForeignKey(
-        "User", default=1, on_delete=models.CASCADE, related_name="all_posts")
-    sender = models.ForeignKey(
-        "User", default=1, on_delete=models.PROTECT, related_name="post_sent")
+        "User", default=1, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
+    sent = models.ManyToManyField("User", related_name="post_sent")
+    likes = models.ManyToManyField(
+        'User', default=None, blank=True, related_name='likes')
 
-    def serialize(self):
+    def user_posts(self):
         return {
             "id": self.id,
-            "sender": self.sender.post,
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
-            "likes": self.likes
+            "sent": [username.post for username in self.sent.all()],
+            "likes": self.likes.all().count()
         }
+
+
+class Like(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    userpost = models.ForeignKey('Post', on_delete=models.CASCADE)
+
+
+class Follow(models.Model):
+    following = models.ForeignKey(
+        'User', on_delete=models.CASCADE, related_name='followers')
+    follower = models.ForeignKey(
+        'User', on_delete=models.CASCADE, related_name='to_follow')

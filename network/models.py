@@ -29,7 +29,7 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(
-        'User', default=None, blank=True, related_name='likes')
+        'User', default=0, blank=True, related_name='likes')
 
     objects = PostSerializer()
 
@@ -39,8 +39,12 @@ class Post(models.Model):
             "username": self.username,
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
-            "likes": self.likes.all().count()
+            "likes": self.likes
         }
+
+    @property
+    def count_likes(self):
+        return self.likes.all().count()
 
     def __str__(self, *args, **kwargs):
         return self.content

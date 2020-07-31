@@ -73,8 +73,8 @@ def profile(request, username):
 # Connect to /following route
 
 
-def following(request):
-    return HttpResponseRedirect(reverse("index"))
+def following(request, username):
+    return render(request, "network/following.html")
 
 # Connect to /posts route
 

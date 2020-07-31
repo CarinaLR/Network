@@ -67,8 +67,8 @@ def register(request):
 # Connect to /profile route
 
 
-def profile(request):
-    return HttpResponseRedirect(reverse("index"))
+def profile(request, username):
+    return render(request, "network/profile.html")
 
 # Connect to /following route
 

@@ -51,3 +51,8 @@ h3 {
   vertical-align: inherit;
   border-collapse: separate;
 }
+
+.inputText {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

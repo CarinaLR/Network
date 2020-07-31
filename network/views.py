@@ -108,28 +108,29 @@ def posts(request):
 
 @login_required
 def post(request, post_id):
-    # queryset = User.objects.all()
-    # print("queryset ->", queryset)
+    queryset = Post.objects.all()
+    print("queryset ->", queryset)
 
     # Query for requested post
-    # try:
-    #     post = Post.objects.get(username=request.user, pk=post_id)
-    # except Post.DoesNotExist:
-    #     return JsonResponse({"error": "Post not found."}, status=404)
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
 
-    # # Return post contents
-    # if request.method == "GET":
-    posts = Post.objects.filter(pk=post_id)
+    # Return post contents
+    if request.method == "GET":
+        print("post_id ->", post.id)
+        print("post ->", post.content)
+        print("user -> post ->", post.username)
+        # return JsonResponse(post.serialize())
 
-    posts = posts.order_by("-timestamp").all()
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+    # Email must be via GET or PUT
+    else:
+        return JsonResponse({
+            "error": "GET or PUT request required."
+        }, status=400)
 
-    # Post must be via GET or PUT
-    # else:
-    # return JsonResponse({
-    #     "error": "GET or PUT request required."
-    # }, status=400)
-    # return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("index"))
 
 
 def userposts(request, userposts):

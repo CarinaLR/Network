@@ -12,9 +12,16 @@
     <button class="btn btn-sm btn-outline-primary" id="show_posts">Show More</button>
     <div id="post-view">
     <h2>Showing more posts</h2>
-    <table id="post-table">
-    <tbody></tbody>
-    </table>
+    <div id="post-table">
+    {% for post in posts %}
+    <div class="compose-post">
+    <h3 id="titlePage">{{ post.username }}</h3>
+    <p class="inputText">{{ post.content }}</p>
+    <p class="timeInfo">{{ post.timestamp}}</p>
+    <p class="timeInfo">{{ post.likes}}</p>
+    </div>
+    {% endfor %}
+    </div>
     </div>
 {% endblock %}
 {% block script %}

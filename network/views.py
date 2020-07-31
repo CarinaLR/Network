@@ -10,7 +10,12 @@ from .models import User, Post, Like, Follow
 
 
 def index(request):
-    return render(request, "network/index.html")
+    # Get querySet for all posts, with the most recent posts first.
+    all_post = Post.objects.order_by("-timestamp").all()
+    print("all_post ->", all_post)
+    return render(request, "network/index.html", {
+        "posts": all_post
+    })
 
 
 def login_view(request):
@@ -94,9 +99,6 @@ def posts(request):
             # Get content and save as post, passing new content and user instance.
             post = Post.objects.create(username=user, content=new_content)
             post.save()
-            print("post_id ->", post.id)
-            print("post ->", post.content)
-            print("user -> post ->", post.username)
             return render(request, "network/all_posts.html", {
                 "username": post.username,
                 "content": post.content
@@ -122,7 +124,7 @@ def post(request, post_id):
         print("post_id ->", post.id)
         print("post ->", post.content)
         print("user -> post ->", post.username)
-        # return JsonResponse(post.serialize())
+        # return JsonResponse(queryset.serialize())
 
     # Email must be via GET or PUT
     else:

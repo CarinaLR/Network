@@ -2,9 +2,10 @@
 {% load static %}
 
 {% block body %}
-    <h1 id="titleLink">{{ username }} Profile</h1>
+    <h1 id="titleLink">Profile</h1>
     <hr>
-    <div class="compose-post">
+    <button class="btn btn-sm btn-outline-primary" id="edit_profile">Edit Profile</button>
+    <div class="compose-post" id="compose-post">
     <h3 id="titlePage"> Edit Profile </h3>
      <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
@@ -23,6 +24,13 @@
         <input class="btn btn-primary" type="submit" value="Edit">
     </form>
     </div>
+     <div id="post-view">
+     <h2>Username: Sample</h2>
+     <hr>
+     <h2>Followers: 205</h2>
+     <hr>
+     <h2>Following: 200</h2>
+     </div>
 {% endblock %}
 {% block script %}
 <script src="{% static 'network/main.js' %}"></script>

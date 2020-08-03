@@ -76,15 +76,25 @@ def profile(request, username):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     user = request.user
-    # For loop to iterate in all posts.
-    for post in all_post:
-        if post.username == user:
-            user_post = []
-            user_post.extend(all_post)
+    profileuser = get_object_or_404(User, username=username)
+    print("profiluser ->", profileuser)
+    posts = Post.objects.filter(username=profileuser).order_by('id').reverse()
+    print("posts ->", posts)
+    post_list = len(posts)
+    print("posts ->", post_list)
+    followers = Follow.objects.filter(following=profileuser)
+    followers_list = len(followers)
+    print("followers_list ->", followers_list)
+    following = Follow.objects.filter(follower=profileuser)
+    following_list = len(following)
+    print("following_list ->", following_list)
 
     return render(request, "network/profile.html", {
         "user": user,
-        "userPost": user_post
+        "userPost": posts,
+        "followers": followers_list,
+        "following": following_list,
+        "posts_list": post_list
     })
 
 # Connect to /following route

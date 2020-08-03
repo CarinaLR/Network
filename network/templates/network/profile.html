@@ -46,11 +46,8 @@
      <div class="compose-post">
      <h3 id="titlePage">{{ post.username }}</h3>
     <p class="inputText">{{ post.content }}</p>
-    <p class="timeInfo">Postdate</p>
+    <p class="timeInfo">{{ post.timestamp }}</p>
     <p class="timeInfo"> Likes: 0 </p>
-    <div class="follow_profile">
-    <button class="btn btn-sm btn-outline-primary" class="follow_profile">Follow</button>
-    </div>
     </div>
      {% endfor %}
 {% endblock %}

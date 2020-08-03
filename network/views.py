@@ -78,7 +78,8 @@ def profile(request, username):
     user = request.user
     profileuser = get_object_or_404(User, username=username)
     print("profiluser ->", profileuser)
-    posts = Post.objects.filter(username=profileuser).order_by('id').reverse()
+    posts = Post.objects.filter(
+        username=profileuser).order_by("-timestamp").all()
     print("posts ->", posts)
     post_list = len(posts)
     print("posts ->", post_list)

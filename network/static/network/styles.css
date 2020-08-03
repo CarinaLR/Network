@@ -134,6 +134,15 @@ img {
   color: white;
 }
 
+.message {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  font-family: inherit;
+}
+
 /* insta */
 
 .vtbgv {

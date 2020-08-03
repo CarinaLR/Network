@@ -12,7 +12,7 @@ from .models import User, Post, Like, Follow
 def index(request):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
-    print("all_post ->", all_post)
+
     return render(request, "network/index.html", {
         "posts": all_post
     })
@@ -103,8 +103,30 @@ def profile(request, username):
 # Connect to /following route
 
 
+@login_required
 def following(request, username):
-    return render(request, "network/following.html")
+    # # Get querySet for all posts, with the most recent posts first.
+    # all_post = Post.objects.order_by("-timestamp").all()
+
+    if request.method == 'GET':
+        user = get_object_or_404(User, username=username)
+        print("user ->", user)
+        follows = Follow.objects.filter(follower=user)
+        print("follows ->", follows)
+        posts = Post.objects.order_by("-timestamp").all()
+        print("posts ->", posts)
+        posted = []
+        for post in posts:
+            for follower in follows:
+                if follower.following == post.user:
+                    posted.append(post)
+        print("posted ->", posted)
+        if not follows:
+            return render(request, 'network/following.html', {'message': "Could be a good idea to start to follow people of your interest!"})
+
+    return render(request, "network/following.html", {
+        "posts": posted
+    })
 
 # Connect to /posts route
 

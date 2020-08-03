@@ -4,33 +4,50 @@
 {% block body %}
     <h1 id="titleLink">Profile</h1>
     <hr>
-    <button class="btn btn-sm btn-outline-primary" id="edit_profile">Edit Profile</button>
-    <div class="compose-post" id="compose-post">
-    <h3 id="titlePage"> Edit Profile </h3>
-     <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Edit">
-    </form>
-    </div>
-     <div id="post-view">
-     <h2>Username: Sample</h2>
-     <hr>
-     <h2>Followers: 205</h2>
-     <hr>
-     <h2>Following: 200</h2>
+     <header class="vtbgv">
+     <div class="XjzKX">
+     <div class="_4dMfM">
+     <div class="M-jxE"></div>
      </div>
+     <span class="g47SY">Picture</span></div>
+     <section class="zwlfE">
+     <div class="nZSzR">
+     <h2 class="_7UhW9  fKFbl  yUEEX  KV-D4  fDxYl">** Username **</h2>
+     <div class="QzzMF Igw0E IwRSH eGOV_ ui_ht bPdm3">
+     <button class="btn btn-sm btn-outline-primary" id="edit_profile">Edit Profile</button>
+     </div>
+     </div>
+     <div class="nZSzR"></div>
+     <ul class="k9GMp">
+     <li class="Y8-fY">
+     <span class="-nal3">
+     <span class="g47SY">20</span>
+      posts
+     </span>
+     </li>
+     <li class="Y8-fY">
+     <span class="-nal3">
+     <span class="g47SY">277</span>
+      Followers
+     </span>
+     </li>
+     <li class="Y8-fY">
+     <span class="-nal3">
+     <span class="g47SY">205</span>
+      Following
+     </span>
+     </li>
+     </ul>
+     <div class="-vDIg"></div>
+     </section>
+     </header>
+     <hr>
+     <div class="compose-post">
+    <h3 id="titlePage">Username</h3>
+    <p class="inputText">Userpost</p>
+    <p class="timeInfo">Postdate</p>
+    <p class="timeInfo"> Likes: 0 </p>
+    </div>
 {% endblock %}
 {% block script %}
 <script src="{% static 'network/main.js' %}"></script>

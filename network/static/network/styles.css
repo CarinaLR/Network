@@ -40,6 +40,52 @@ h3 {
   padding: 5px;
 }
 
+#post-view {
+  padding: 30px;
+  margin: 10px;
+  border: 1px solid white;
+  border-radius: 12px;
+  clear: both;
+  border-collapse: separate;
+}
+
+#profile_user {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+#nested_profile {
+  display: flex;
+  flex-grow: 2;
+  flex-basis: 30%;
+  flex-shrink: 1;
+  min-width: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.5, Arial, Helvetica, sans-serif;
+  width: 550px;
+  align-items: stretch;
+  flex-direction: row;
+  position: relative;
+}
+
+#profile_followers {
+  border: 1px solid white;
+  border-radius: 12px;
+  width: 30%;
+}
+
+#profile_following {
+  border: 1px solid white;
+  border-radius: 12px;
+  width: 30%;
+}
+
+#edit_profile {
+  padding: 10px;
+  margin: 10px;
+}
+
 /* class */
 
 .compose-post {
@@ -60,4 +106,219 @@ h3 {
 .timeInfo {
   color: grey;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.words_down {
+  display: flex;
+  justify-content: center;
+}
+
+.counts_f {
+  display: flex;
+  justify-content: baseline;
+  margin-left: 12%;
+  color: white;
+}
+
+/* insta */
+
+.vtbgv {
+  margin-bottom: 44px;
+  flex-direction: row;
+  align-items: stretch;
+  display: flex;
+  border: 1px solid white;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin: 0;
+  position: relative;
+}
+
+.XjzKX {
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-right: 30px;
+  flex-shrink: 0;
+  align-items: stretch;
+  border: 1px solid white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.zwlfE {
+  flex-basis: 30px;
+  flex-grow: 2;
+  flex-shrink: 1;
+  min-width: 0;
+  align-items: stretch;
+  border: 1px solid white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.nZSzR {
+  margin-bottom: 20px;
+  align-items: center;
+  flex-direction: row;
+  flex-shrink: 1;
+  min-width: 0;
+  border: 1px solid white;
+  box-sizing: border-box;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.k9GMp {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding-inline-start: 40px;
+}
+
+.-vDIg {
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
+  align-items: stretch;
+  border: 1px solid white;
+  box-sizing: border-box;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.Y8-fY {
+  margin-left: 10px;
+  font-size: 16px;
+  margin-right: 40px;
+  margin: 0;
+  padding: 10;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  display: list-item;
+}
+
+.-nal3 {
+  color: white;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.g47SY {
+  color: white;
+  font-weight: 600;
+  margin: 0;
+  padding: 10;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+._4dMfM {
+  height: 150px;
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: stretch;
+  border: 1px solid white;
+  box-sizing: border-box;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.M-jxE {
+  border: 1px solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+._7UhW9 {
+  margin-block-start: 0.93em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 10px;
+  margin-inline-end: 0px;
+}
+.fKFbl {
+  font-size: 28px;
+  line-height: 32px;
+  margin: -5px 0 -6px;
+  padding: 10;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+.yUEEX {
+  font-weight: 300;
+}
+.KV-D4 {
+  color: white;
+}
+.fDxYl {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.QzzMF {
+  display: block;
+}
+.Igw0E {
+  align-content: stretch;
+}
+.IwRSH {
+  align-items: stretch;
+}
+.eGOV_ {
+  justify-content: flex-start;
+}
+.ui_ht {
+  flex: 0 1 auto;
+}
+.bPdm3 {
+  margin-left: 20px;
 }

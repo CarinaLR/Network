@@ -88,6 +88,13 @@ h3 {
 
 /* class */
 
+.follow_profile {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
 .compose-post {
   padding: 30px;
   margin: 10px;

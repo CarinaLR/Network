@@ -73,7 +73,19 @@ def register(request):
 
 
 def profile(request, username):
-    return render(request, "network/profile.html")
+    # Get querySet for all posts, with the most recent posts first.
+    all_post = Post.objects.order_by("-timestamp").all()
+    user = request.user
+    # For loop to iterate in all posts.
+    for post in all_post:
+        if post.username == user:
+            user_post = []
+            user_post.extend(all_post)
+
+    return render(request, "network/profile.html", {
+        "user": user,
+        "userPost": user_post
+    })
 
 # Connect to /following route
 

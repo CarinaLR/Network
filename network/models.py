@@ -30,6 +30,10 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(
         'User', default=0, blank=True, related_name='likes')
+    follower = models.ManyToManyField(
+        'User',  related_name='to_follow')
+    following = models.ManyToManyField(
+        'User', related_name='followers')
 
     objects = PostSerializer()
 
@@ -39,7 +43,9 @@ class Post(models.Model):
             "username": self.username,
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
-            "likes": self.likes
+            "likes": self.likes,
+            "followers": [user.post for user in self.follower.all()],
+            "following": [user.post for user in self.following.all()],
         }
 
     @property
@@ -55,8 +61,8 @@ class Like(models.Model):
     userpost = models.ForeignKey('Post', on_delete=models.CASCADE)
 
 
-class Follow(models.Model):
-    following = models.ForeignKey(
-        'User', on_delete=models.CASCADE, related_name='followers')
-    follower = models.ForeignKey(
-        'User', on_delete=models.CASCADE, related_name='to_follow')
+# class Follow(models.Model):
+#     following = models.ForeignKey(
+#         'User', on_delete=models.CASCADE, related_name='followers')
+#     follower = models.ForeignKey(
+#         'User', on_delete=models.CASCADE, related_name='to_follow')

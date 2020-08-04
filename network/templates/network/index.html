@@ -16,7 +16,10 @@
     <p class="timeInfo">{{ post.timestamp}}</p>
     <p class="timeInfo"> Likes: 0 </p>
     <div class="follow_profile">
-    <button class="btn btn-sm btn-outline-primary" class="follow_profile">Follow</button>
+    <form>
+    {% csrf_token %}
+    <button class="btn btn-sm btn-outline-primary" class="follow_profile" id="follow_profile" name="follow_profile" value="{{ request.post }}">Follow</button>
+    </form>
     </div>
     </div>
     {% endfor %}

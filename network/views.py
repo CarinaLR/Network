@@ -6,12 +6,14 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from .models import User, Post, Like, Follow
+from .models import User, Post, Like
 
 
 def index(request):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
+    follow = request.POST.get("follow_profile")
+    current_user = request.user
 
     return render(request, "network/index.html", {
         "posts": all_post
@@ -82,13 +84,15 @@ def profile(request, username):
         username=profileuser).order_by("-timestamp").all()
     post_list = len(posts)
     # Get length of querySet for all followers, indicator of how many followers the user has.
-    followers = Follow.objects.filter(following=profileuser)
+    followers = Post.objects.filter(follower=profileuser)
     followers_list = len(followers)
+    print("followers", followers)
     # Get length of querySet for all following, indicator of how many users the user follows.
-    following = Follow.objects.filter(follower=profileuser)
+    following = Post.objects.filter(following=profileuser)
     following_list = len(following)
+    print("following", following)
     # Get length of querySet for follows between users.
-    follows = Follow.objects.filter(
+    follows = Post.objects.filter(
         following=user, follower=profileuser)
 
     return render(request, "network/profile.html", {
@@ -111,7 +115,7 @@ def following(request, username):
     if request.method == 'GET':
         user = get_object_or_404(User, username=username)
         print("user ->", user)
-        follows = Follow.objects.filter(follower=user)
+        follows = Post.objects.filter(follower=user)
         print("follows ->", follows)
         posts = Post.objects.order_by("-timestamp").all()
         print("posts ->", posts)

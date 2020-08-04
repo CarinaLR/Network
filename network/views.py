@@ -139,6 +139,7 @@ def posts(request):
     user = get_object_or_404(User, username=username)
     content = request.POST.get("content")
     post = request.POST.get("post")
+    all_posts = Post.objects.order_by("-timestamp").all()
     if request.method == 'POST':
         if post:
             # Get new content for post
@@ -148,10 +149,12 @@ def posts(request):
             post.save()
             return render(request, "network/all_posts.html", {
                 "username": post.username,
-                "content": post.content
+                "content": post.content,
+                "all_posts": all_posts
             })
     return render(request, "network/all_posts.html", {
         "username": username,
+        "all_posts": all_posts
     })
 
 

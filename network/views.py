@@ -14,6 +14,10 @@ def index(request):
     all_post = Post.objects.order_by("-timestamp").all()
     follow = request.POST.get("follow_profile")
     current_user = request.user
+    # Activate button to save followers and following.
+    if request.method == "POST":
+        if follow:
+            post_username = request.POST.get("follow_profile")
 
     return render(request, "network/index.html", {
         "posts": all_post
@@ -180,7 +184,6 @@ def post(request, post_id):
         print("user -> post ->", post.username)
         # return JsonResponse(queryset.serialize())
 
-    # Email must be via GET or PUT
     else:
         return JsonResponse({
             "error": "GET or PUT request required."
@@ -200,3 +203,13 @@ def userposts(request, userposts):
     return JsonResponse([post.get_posts() for post in posts], safe=False)
 
     return render(request, "network/index.html")
+
+
+def follow_profile(request, username):
+    current_user = request.user
+    print("current_user -> ", current_user)
+    print("post_user -> ", username)
+    print("I'm here!-> ")
+    queryset = Post.objects.all()
+    print("queryset -> ", queryset)
+    return HttpResponseRedirect(reverse("index"))

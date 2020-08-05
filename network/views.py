@@ -205,11 +205,26 @@ def userposts(request, userposts):
     return render(request, "network/index.html")
 
 
-def follow_profile(request, username):
+def follow_profile(request, post_id):
     current_user = request.user
     print("current_user -> ", current_user)
-    print("post_user -> ", username)
-    print("I'm here!-> ")
+    print("post_id -> ", post_id)
     queryset = Post.objects.all()
-    print("queryset -> ", queryset)
+
+    post = Post.objects.get(pk=post_id)
+    user_post = post.username
+    print("user_post -> ", user_post)
+    followers_post = post.follower
+    print("followers_post -> ", followers_post)
+    user_att = post.serialize()
+    print("user_att -> ", user_att)
+    # follows = Post.objects.filter(follower=post.username)
+    # print("followers -> ", follows)
+    # user_followers = user_att.followers
+    # print("user_followers -> ", user_followers)
+    posted = []
+    posted.append(current_user)
+    # save_follower = follows.append(post)
+    # print("save_follower ->", save_follower)
+
     return HttpResponseRedirect(reverse("index"))

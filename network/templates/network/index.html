@@ -16,10 +16,12 @@
     <p class="timeInfo">{{ post.timestamp}}</p>
     <p class="timeInfo"> Likes: 0 </p>
     <div class="follow_profile">
-    <form action="{% url 'follow_profile' post.username %}" method="POST">
+    {% if user.is_authenticated %}
+    <form action="{% url 'follow_profile' post.id %}" method="POST">
     {% csrf_token %}
     <input class="btn btn-sm btn-outline-primary" class="follow_profile" id="follow_profile" type="submit" name="follow_profile" value="Follow">
     </form>
+    {% endif %}
     </div>
     </div>
     {% endfor %}

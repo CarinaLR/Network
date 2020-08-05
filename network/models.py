@@ -44,8 +44,8 @@ class Post(models.Model):
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
             "likes": self.likes,
-            "followers": [user.post for user in self.follower.all()],
-            "following": [user.post for user in self.following.all()],
+            "followers": [],
+            "following": [],
         }
 
     @property

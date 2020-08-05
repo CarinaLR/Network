@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from .models import User, Post, Like
+from .models import User, Post, Like, Follow
 
 
 def index(request):
@@ -88,15 +88,15 @@ def profile(request, username):
         username=profileuser).order_by("-timestamp").all()
     post_list = len(posts)
     # Get length of querySet for all followers, indicator of how many followers the user has.
-    followers = Post.objects.filter(follower=profileuser)
+    followers = Follow.objects.filter(follower=profileuser)
     followers_list = len(followers)
     print("followers", followers)
     # Get length of querySet for all following, indicator of how many users the user follows.
-    following = Post.objects.filter(following=profileuser)
+    following = Follow.objects.filter(following=profileuser)
     following_list = len(following)
     print("following", following)
     # Get length of querySet for follows between users.
-    follows = Post.objects.filter(
+    follows = Follow.objects.filter(
         following=user, follower=profileuser)
 
     return render(request, "network/profile.html", {
@@ -119,7 +119,7 @@ def following(request, username):
     if request.method == 'GET':
         user = get_object_or_404(User, username=username)
         print("user ->", user)
-        follows = Post.objects.filter(follower=user)
+        follows = Follow.objects.filter(follower=user)
         print("follows ->", follows)
         posts = Post.objects.order_by("-timestamp").all()
         print("posts ->", posts)
@@ -214,17 +214,13 @@ def follow_profile(request, post_id):
     post = Post.objects.get(pk=post_id)
     user_post = post.username
     print("user_post -> ", user_post)
-    followers_post = post.follower
-    print("followers_post -> ", followers_post)
-    user_att = post.serialize()
-    print("user_att -> ", user_att)
-    # follows = Post.objects.filter(follower=post.username)
-    # print("followers -> ", follows)
-    # user_followers = user_att.followers
-    # print("user_followers -> ", user_followers)
+    followers = Follow.objects.filter(follower=user_post)
+    print("followers -> ", followers)
+
     posted = []
     posted.append(current_user)
-    # save_follower = follows.append(post)
-    # print("save_follower ->", save_follower)
+    print("posted ->", posted)
+    user_att = post.serialize()
+    print("user_att -> ", user_att)
 
     return HttpResponseRedirect(reverse("index"))

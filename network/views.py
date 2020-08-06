@@ -117,16 +117,16 @@ def following(request, username):
     # all_post = Post.objects.order_by("-timestamp").all()
 
     if request.method == 'GET':
-        user = get_object_or_404(User, username=username)
-        print("user ->", user)
-        follows = Follow.objects.filter(follower=user)
-        print("follows ->", follows)
+        username = get_object_or_404(User, username=username)
+        print("user ->", username)
+        follows = Follow.objects.filter(follower=1)
+        print("follows ->", len(follows))
         posts = Post.objects.order_by("-timestamp").all()
-        print("posts ->", posts)
+
         posted = []
         for post in posts:
             for follower in follows:
-                if follower.following == post.user:
+                if follower.following == post.username:
                     posted.append(post)
         print("posted ->", posted)
         if not follows:

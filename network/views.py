@@ -82,22 +82,24 @@ def profile(request, username):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     user = request.user
-    profileuser = get_object_or_404(User, username=username)
+    print("_user ->", user)
+    profile_user = get_object_or_404(User, username=username)
+    print("profile_user ->", profile_user)
     # Get querySet for user posts, with the most recent posts first.
     posts = Post.objects.filter(
-        username=profileuser).order_by("-timestamp").all()
+        username=profile_user).order_by("-timestamp").all()
     post_list = len(posts)
     # Get length of querySet for all followers, indicator of how many followers the user has.
-    followers = Follow.objects.filter(follower=profileuser)
+    followers = Follow.objects.filter(follower=profile_user)
     followers_list = len(followers)
     print("followers", followers)
     # Get length of querySet for all following, indicator of how many users the user follows.
-    following = Follow.objects.filter(following=profileuser)
+    following = Follow.objects.filter(following=profile_user)
     following_list = len(following)
     print("following", following)
     # Get length of querySet for follows between users.
     follows = Follow.objects.filter(
-        following=user, follower=profileuser)
+        following=user, follower=profile_user)
 
     return render(request, "network/profile.html", {
         "user": user,
@@ -119,21 +121,36 @@ def following(request, username):
     if request.method == 'GET':
         username = get_object_or_404(User, username=username)
         print("user ->", username)
-        follows = Follow.objects.filter(follower=1)
+        follows = Follow.objects.filter(follower=username)
         print("follows ->", len(follows))
         posts = Post.objects.order_by("-timestamp").all()
 
-        posted = []
+        posts_to_follow = []
         for post in posts:
             for follower in follows:
                 if follower.following == post.username:
-                    posted.append(post)
-        print("posted ->", posted)
+                    posts_to_follow.append(post)
+
+        for post_all in posts:
+            posts_posts = post_all.id
+            print("post_posts - ", posts_posts)
+
+        for post in posts_to_follow:
+            post_item = post.id
+            print("post_item - ", post_item)
+            # iterate over reversed indices's
+            for post_item in range(len(posts_to_follow) - 1, -1, -1):
+                if posts_to_follow[post_item] == posts_posts:
+                    del post_item
+            # if posts_posts:
+            #     posts_to_follow.remove(post)
+        # print("post-to-follow - ", posts_to_follow)
+
         if not follows:
             return render(request, 'network/following.html', {'message': "Could be a good idea to start to follow people of your interest!"})
 
     return render(request, "network/following.html", {
-        "posts": posted
+        "posts": posts_to_follow
     })
 
 

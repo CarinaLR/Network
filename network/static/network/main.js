@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", () => edit_profile());
   document
     .querySelector("#follow_profile")
-    .addEventListener("click", () => follow_profile());
+    .addEventListener("click", () => unfollow_button());
 });
 
 function load_posts() {
@@ -22,6 +22,7 @@ function edit_profile() {
   document.querySelector("#compose-post").style.display = "block";
 }
 
-function follow_profile(post) {
-  console.log("POST ->", post);
+function unfollow_button() {
+  // Show more edit profile and hide user profile
+  document.querySelector("#follow_profile").style.display = "none";
 }

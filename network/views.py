@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .models import User, Post, Like, Follow
 
@@ -12,6 +13,11 @@ from .models import User, Post, Like, Follow
 def index(request):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
+    # Show 10 posts per page.
+    paginator = Paginator(all_post, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     follow = request.POST.get("follow_profile")
     current_user = request.user
     # Activate button to save followers and following.
@@ -20,7 +26,8 @@ def index(request):
             post_username = request.POST.get("follow_profile")
 
     return render(request, "network/index.html", {
-        "posts": all_post
+        "posts": all_post,
+        "page_obj": page_obj
     })
 
 
@@ -115,36 +122,38 @@ def profile(request, username):
 
 @login_required
 def following(request, username):
-    # # Get querySet for all posts, with the most recent posts first.
-    # all_post = Post.objects.order_by("-timestamp").all()
-
     if request.method == 'GET':
         username = get_object_or_404(User, username=username)
         print("user ->", username)
         follows = Follow.objects.filter(follower=username)
         print("follows ->", len(follows))
+        # Get querySet for all posts, with the most recent posts first.
         posts = Post.objects.order_by("-timestamp").all()
 
         posts_to_follow = []
+
         for post in posts:
             for follower in follows:
                 if follower.following == post.username:
                     posts_to_follow.append(post)
 
-        for post_all in posts:
-            posts_posts = post_all.id
-            print("post_posts - ", posts_posts)
+        # Iterate over appended posts
 
-        for post in posts_to_follow:
-            post_item = post.id
-            print("post_item - ", post_item)
-            # iterate over reversed indices's
-            for post_item in range(len(posts_to_follow) - 1, -1, -1):
-                if posts_to_follow[post_item] == posts_posts:
-                    del post_item
-            # if posts_posts:
-            #     posts_to_follow.remove(post)
-        # print("post-to-follow - ", posts_to_follow)
+        for posts_i in posts_to_follow:
+            posti_id = posts_i.id
+            for post_j in posts_to_follow:
+                postj_id = post_j.id
+                count = 1
+                if posti_id == postj_id:
+                    print("post i - ", posti_id)
+                    print("post j - ", postj_id)
+                    count += 1
+                    print("count - ", count)
+                if count > 1:
+                    posts_to_follow.remove(post_j)
+
+        # for i, c in enumerate(posts_to_follow):
+        #     print(" this it is: ", i, c, type(c))
 
         if not follows:
             return render(request, 'network/following.html', {'message': "Could be a good idea to start to follow people of your interest!"})

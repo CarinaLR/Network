@@ -136,6 +136,7 @@ def following(request, username):
         "posts": posted
     })
 
+
 # Connect to /posts route
 
 
@@ -206,21 +207,25 @@ def userposts(request, userposts):
 
 
 def follow_profile(request, post_id):
+    # Set variables for current user
     current_user = request.user
-    print("current_user -> ", current_user)
-    print("post_id -> ", post_id)
-    queryset = Post.objects.all()
-
+    # Set variables for user post
     post = Post.objects.get(pk=post_id)
     user_post = post.username
-    print("user_post -> ", user_post)
-    followers = Follow.objects.filter(follower=user_post)
-    print("followers -> ", followers)
-
-    posted = []
-    posted.append(current_user)
-    print("posted ->", posted)
-    user_att = post.serialize()
-    print("user_att -> ", user_att)
+    owner_post = get_object_or_404(User, username=user_post)
+    # Set variables for follows, create object and save it
+    follow = Follow.objects.create(
+        following=current_user, follower=owner_post)
+    follow.save()
+    follower = Follow.objects.filter(following=current_user)
+    print("follower ->", follower)
+    following = Follow.objects.filter(follower=current_user)
+    print("following ->", following)
+    follows = Follow.objects.filter(
+        follower=current_user, following=owner_post)
+    total_follower = len(follower)
+    print("total_follower ->", total_follower)
+    total_following = len(following)
+    print("total_following ->", total_following)
 
     return HttpResponseRedirect(reverse("index"))

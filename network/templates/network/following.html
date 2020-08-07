@@ -6,23 +6,42 @@
    <hr>
 <div id="post-view">
     <div id="post-table">
-    {% for post in posts %}
-    <div class="compose-post">
-    <h3 id="titlePage">{{ post.username }}</h3>
-    <p class="inputText">{{ post.content }}</p>
-    <p class="timeInfo">{{ post.timestamp}}</p>
-    <p class="timeInfo"> Likes: 0 </p>
-    <div class="follow_profile">
-    <form>
-    {% csrf_token %}
-    <button class="btn btn-sm btn-outline-primary" class="follow_profile">Follow</button>
-    </form>
-    </div>
-    </div>
+    {% for post in page_obj %}
+        <div class="compose-post">
+            <h3 id="titlePage">{{ post.username }}</h3>
+            <p class="inputText">{{ post.content }}</p>
+            <p class="timeInfo">{{ post.timestamp}}</p>
+            <p class="timeInfo"> Likes: 0 </p>
+            <div class="follow_profile">
+                <form>
+                {% csrf_token %}
+                <button class="btn btn-sm btn-outline-primary" class="follow_profile">Follow</button>
+                </form>
+            </div>
+        </div>
     {% endfor %}
     </div>
-    </div>
+</div>
 <div class="message">{{ message }}</div>
+<div class="compose-post" id="compose-post">
+        <div class="pagination justify-content-center">
+            <span class="step-links btn btn-sm btn-outline-primary">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
 <script src="{% static 'network/main.js' %}"></script>

@@ -155,11 +155,17 @@ def following(request, username):
         # for i, c in enumerate(posts_to_follow):
         #     print(" this it is: ", i, c, type(c))
 
+        # Show 10 posts per page.
+        paginator = Paginator(posts_to_follow, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         if not follows:
             return render(request, 'network/following.html', {'message': "Could be a good idea to start to follow people of your interest!"})
 
     return render(request, "network/following.html", {
-        "posts": posts_to_follow
+        "posts": posts_to_follow,
+        "page_obj": page_obj
     })
 
 

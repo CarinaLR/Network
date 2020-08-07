@@ -143,6 +143,12 @@ img {
   font-family: inherit;
 }
 
+/* paginator */
+
+.pagination > span > a.active {
+  color: #fff;
+}
+
 /* insta */
 
 .vtbgv {

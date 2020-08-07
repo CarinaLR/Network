@@ -4,12 +4,9 @@
 {% block body %}
     <h1 id="titleLink"> Your Network</h1>
     <hr>
-    <div class="compose-post" id="compose-post">
-    <button class="btn btn-sm btn-outline-primary" id="show_posts" class="follow_profile">Show Less</button>
-    </div>
     <div id="post-view">
     <div id="post-table">
-    {% for post in posts %}
+    {% for post in page_obj %}
     <div class="compose-post">
     <h3 id="titlePage">{{ post.username }}</h3>
     <p class="inputText">{{ post.content }}</p>
@@ -26,6 +23,27 @@
     </div>
     {% endfor %}
     </div>
+    </div>
+    <div class="compose-post" id="compose-post">
+    <button class="btn btn-sm btn-outline-primary" id="show_posts" class="follow_profile">Show Less</button>
+    <hr>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
     </div>
 {% endblock %}
 {% block script %}

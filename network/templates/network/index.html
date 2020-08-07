@@ -5,24 +5,24 @@
     <h1 id="titleLink"> Your Network</h1>
     <hr>
     <div id="post-view">
-    <div id="post-table">
-    {% for post in page_obj %}
-    <div class="compose-post">
-    <h3 id="titlePage">{{ post.username }}</h3>
-    <p class="inputText">{{ post.content }}</p>
-    <p class="timeInfo">{{ post.timestamp}}</p>
-    <p class="timeInfo"> Likes: 0 </p>
-    <div class="follow_profile">
-    {% if user.is_authenticated %}
-    <form action="{% url 'follow_profile' post.id %}" method="POST">
-    {% csrf_token %}
-    <input class="btn btn-sm btn-outline-primary" class="follow_profile" id="follow_profile" type="submit" name="follow_profile" value="Follow">
-    </form>
-    {% endif %}
-    </div>
-    </div>
-    {% endfor %}
-    </div>
+        <div id="post-table">
+        {% for post in page_obj %}
+            <div class="compose-post">
+            <h3 id="titlePage">{{ post.username }}</h3>
+            <p class="inputText">{{ post.content }}</p>
+            <p class="timeInfo">{{ post.timestamp}}</p>
+            <p class="timeInfo"> Likes: 0 </p>
+                <div class="follow_profile">
+                {% if user.is_authenticated %}
+                <form action="{% url 'follow_profile' post.id %}" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-sm btn-outline-primary" class="follow_profile" id="follow_profile" type="submit" name="follow_profile" value="Follow">
+                </form>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
     </div>
     <div class="compose-post" id="compose-post">
     <button class="btn btn-sm btn-outline-primary" id="show_posts" class="follow_profile">Show Less</button>

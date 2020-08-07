@@ -175,6 +175,11 @@ def posts(request):
     content = request.POST.get("content")
     post = request.POST.get("post")
     all_posts = Post.objects.order_by("-timestamp").all()
+    # Show 10 posts per page.
+    paginator = Paginator(all_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     if request.method == 'POST':
         if post:
             # Get new content for post
@@ -189,7 +194,8 @@ def posts(request):
             })
     return render(request, "network/all_posts.html", {
         "username": username,
-        "all_posts": all_posts
+        "all_posts": all_posts,
+        "page_obj": page_obj
     })
 
 

@@ -143,6 +143,15 @@ img {
   font-family: inherit;
 }
 
+.compose-edit {
+  padding: 30px;
+  margin: 10px;
+  border: 1px solid white;
+  border-radius: 12px;
+  clear: both;
+  vertical-align: inherit;
+  border-collapse: separate;
+}
 /* paginator */
 
 .pagination > span > a.active {

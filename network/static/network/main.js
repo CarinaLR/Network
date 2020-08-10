@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .querySelector("#follow_profile")
     .addEventListener("click", () => unfollow_button());
+  document
+    .querySelector("#edit_post")
+    .addEventListener("click", () => edit_post(post_id));
 });
 
 function load_posts() {
@@ -25,4 +28,87 @@ function edit_profile() {
 function unfollow_button() {
   // Show more edit profile and hide user profile
   document.querySelector("#follow_profile").style.display = "none";
+}
+
+function edit_post(post_id) {
+  console.log("post_id -> ", post_id);
+  post_id = post_id;
+  // const query_selector = document.querySelector(".compose-post").click(() => {
+  //   let id_post = $(this).data("id");
+  //   console.log("id_post -> ", id_post);
+  // });
+  // console.log("query_selector - ", query_selector);
+
+  if (post_id) {
+    // document.querySelector("#titlePage").style.display = "none";
+    // document.querySelector("#inputText").style.display = "none";
+    // document.querySelector("#timeInfo").style.display = "none";
+    //Get request by id.
+    fetch(`/post/${post_id}`)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response) {
+          console.log("response", response);
+        } else {
+          console.log("not found");
+        }
+      });
+
+    console.log("I'm here");
+  }
+
+  // const blockDiv = document.createElement("div");
+  // blockDiv.className = "compose-edit";
+
+  // const newDiv = document.createElement("div");
+  // newDiv.className = "newDiv";
+
+  // const titlePage = document.createElement("h3");
+  // titlePage.id = "titlePage";
+  // titlePage.innerHTML = "Edit Post";
+
+  // const formPost = document.createElement("form");
+  // formPost.className = "form-group";
+  // formPost.method = "POST";
+
+  // const textarea = document.createElement("textarea");
+  // textarea.id = "content";
+  // textarea.className = "form-group";
+  // textarea.name = "content";
+
+  // const break_p = document.createElement("br");
+
+  // const input_edit = document.createElement("input");
+  // input_edit.type = "submit";
+  // input_edit.id = "post-button";
+  // input_edit.className = "btn btn-primary";
+  // input_edit.value = "Save";
+  // input_edit.name = "post";
+
+  // formPost.appendChild(textarea);
+  // formPost.appendChild(break_p);
+  // formPost.appendChild(input_edit);
+
+  // newDiv.appendChild(titlePage);
+  // newDiv.appendChild(formPost);
+
+  // // Show textarea post and hide post
+  // document.querySelector(".compose-post").style.display = "none";
+  // document.querySelector(".compose-edit").style.display = "block";
+}
+
+function post_view(post) {
+  const post_id = post.id;
+  const post_username = post.username;
+  const post_time = post.time;
+  const post_like = post.like;
+
+  // Show textarea post and hide post
+  // document.querySelector(".inputText").style.display = "none";
+  // document.querySelector(".timeInfo").style.display = "none";
+
+  console.log("Post ->", post);
+  console.log("post_username ->", post_username);
+  console.log("post_time ->", post_time);
+  console.log("post_id ->", post_id);
 }

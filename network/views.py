@@ -209,20 +209,28 @@ def posts(request):
 def post(request, post_id):
     queryset = Post.objects.all()
     print("queryset ->", queryset)
-
+    username = request.user
     # Query for requested post
     try:
-        post = Post.objects.get(pk=post_id)
+        post = Post.objects.get(username=username, pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
 
     # Return post contents
     if request.method == "GET":
-        print("post_id ->", post.id)
-        print("post ->", post.content)
-        print("user -> post ->", post.username)
-        # return JsonResponse(queryset.serialize())
-
+        post_id = post.id
+        print("post_id ->", post_id)
+        post_username = post.username
+        print("user ->", post_username)
+        post_content = post.content
+        print("content ->", post_content)
+        post_timestamp = post.timestamp
+        print("time ->", post_timestamp)
+        response = {"post_id": post_id, "post_username": post_username,
+                    "post_content": post_content, "post_timestamp": post_timestamp}
+        for post in queryset:
+            if post.id == post_id:
+                return JsonResponse(post.id, safe=False)
     else:
         return JsonResponse({
             "error": "GET or PUT request required."

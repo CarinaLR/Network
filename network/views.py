@@ -208,7 +208,6 @@ def posts(request):
 @login_required
 def post(request, post_id):
     queryset = Post.objects.all()
-    print("queryset ->", queryset)
     username = request.user
     # Query for requested post
     try:
@@ -219,18 +218,15 @@ def post(request, post_id):
     # Return post contents
     if request.method == "GET":
         post_id = post.id
-        print("post_id ->", post_id)
         post_username = post.username
-        print("user ->", post_username)
         post_content = post.content
-        print("content ->", post_content)
         post_timestamp = post.timestamp
-        print("time ->", post_timestamp)
-        response = {"post_id": post_id, "post_username": post_username,
+        response = {"post_id": post_id,
                     "post_content": post_content, "post_timestamp": post_timestamp}
+        print("response ->", response)
         for post in queryset:
             if post.id == post_id:
-                return JsonResponse(post.id, safe=False)
+                return JsonResponse(response, safe=False)
     else:
         return JsonResponse({
             "error": "GET or PUT request required."

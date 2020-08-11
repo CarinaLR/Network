@@ -43,12 +43,17 @@ function edit_post(post_id) {
     // document.querySelector("#titlePage").style.display = "none";
     // document.querySelector("#inputText").style.display = "none";
     // document.querySelector("#timeInfo").style.display = "none";
-    //Get request by id.
+    // Get value from data-id
+    get_class = document.querySelector(".compose-post");
+    get_id = get_class.getAttribute("data-id");
+    console.log("get_id - ", get_id);
+    // Get request by id.
     fetch(`/post/${post_id}`)
       .then((response) => response.json())
       .then((response) => {
         if (response) {
           console.log("response", response);
+          post_view(response);
         } else {
           console.log("not found");
         }
@@ -97,18 +102,6 @@ function edit_post(post_id) {
   // document.querySelector(".compose-edit").style.display = "block";
 }
 
-function post_view(post) {
-  const post_id = post.id;
-  const post_username = post.username;
-  const post_time = post.time;
-  const post_like = post.like;
-
-  // Show textarea post and hide post
-  // document.querySelector(".inputText").style.display = "none";
-  // document.querySelector(".timeInfo").style.display = "none";
-
-  console.log("Post ->", post);
-  console.log("post_username ->", post_username);
-  console.log("post_time ->", post_time);
-  console.log("post_id ->", post_id);
+function post_view(post_id) {
+  console.log("IDK ->", post_id);
 }

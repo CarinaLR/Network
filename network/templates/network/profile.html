@@ -43,6 +43,13 @@
      </header>
      <hr>
      <div class="compose-edit">
+      <h3 id="titlePage"> New Post </h3>
+        <form id="post-form" class="form-group" method="POST">
+        {% csrf_token %}
+        <textarea id="content" class="form-group" name="content"></textarea>
+        <br>
+        <input id="post-button" type="submit" class="btn btn-primary" value="Save" name="save"/>
+        </form>
      </div>
      <div id="post-view">
         <div id="post-table">

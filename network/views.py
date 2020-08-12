@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Post, Like, Follow
 
@@ -224,6 +225,7 @@ def post(request, post_id):
         response = {"post_id": post_id,
                     "post_content": post_content, "post_timestamp": post_timestamp}
         print("response ->", response)
+        edit_post(request, post_id)
         for post in queryset:
             if post.id == post_id:
                 return JsonResponse(response, safe=False)
@@ -271,3 +273,24 @@ def follow_profile(request, post_id):
     print("total_following ->", total_following)
 
     return HttpResponseRedirect(reverse("index"))
+
+
+def edit_post(request, post_id):
+    # Get querySet for all posts, with the most recent posts first.
+    all_post = Post.objects.order_by("-timestamp").all()
+    # Save variable.
+    save = request.POST.get("save")
+    # Get new content and save as content for edited post.
+    if request.method == "POST":
+        if save:
+            get_post = Post.object.get(pk=post_id)
+            print("post_by_id ->", get_post)
+            new_content = request.POST["content"]
+            print("post_new_content ->", new_content)
+            post.content = new_content
+            print("post_edited ->", post)
+            # post.save()
+
+    return render(request, "network/index.html", {
+        "posts": all_post,
+    })

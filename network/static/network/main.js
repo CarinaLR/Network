@@ -85,11 +85,16 @@ function update_post(post_obj) {
 }
 
 function like_button() {
-  let count = 0;
-  document.querySelector("#like-input").onsubmit = () => {
+  var count = 0;
+  // Set function to make count
+  const onClick = () => {
     count += 1;
+    // document.getElementById("clicks").innerHTML = count;
   };
+  onClick();
   console.log("counting -", count);
+
+  // Create Unlike button to show instead of like button.
   const unlike_input = document.createElement("button");
   unlike_input.id = "unlike-input";
   unlike_input.type = "submit";
@@ -98,6 +103,7 @@ function like_button() {
   unlike_input.name = "unlike";
   unlike_input.innerHTML = "Unlike";
 
+  //Hide Like button and show Unlike button.
   document.querySelector("#like_div").appendChild(unlike_input);
   document.querySelector("#like-input").style.display = "none";
 }

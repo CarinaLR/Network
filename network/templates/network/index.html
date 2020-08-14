@@ -11,7 +11,15 @@
             <h3 id="titlePage">{{ post.username }}</h3>
             <p class="inputText">{{ post.content }}</p>
             <p class="timeInfo">{{ post.timestamp}}</p>
-            <p class="timeInfo"> Likes: 0 </p>
+            {% comment %} <p class="like-button timeInfo">
+                <form id="like-form" class="form-group" method="POST">
+                {% csrf_token %} {% endcomment %}
+                <div id= "like_div">
+                <p class="timeInfo"> Likes: 0 </p>
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like" onclick="like_button()">Like</button>
+                </div>
+                {% comment %} </form>
+            </p> {% endcomment %}
                 <div class="follow_profile">
                 {% if user.is_authenticated %}
                 <form action="{% url 'follow_profile' post.id %}" method="POST">

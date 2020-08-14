@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .querySelector("#edit_post")
     .addEventListener("click", () => edit_post(post_id));
+  document
+    .querySelector(".like-button")
+    .addEventListener("click", () => like_button());
 });
 
 function edit_profile() {
@@ -79,4 +82,22 @@ function update_post(post_obj) {
     //Once the post has been submitted, return false to prevent reload.
     return false;
   };
+}
+
+function like_button() {
+  let count = 0;
+  document.querySelector("#like-input").onsubmit = () => {
+    count += 1;
+  };
+  console.log("counting -", count);
+  const unlike_input = document.createElement("button");
+  unlike_input.id = "unlike-input";
+  unlike_input.type = "submit";
+  unlike_input.className = "btn btn-sm btn-outline-primary";
+  unlike_input.value = "Unlike";
+  unlike_input.name = "unlike";
+  unlike_input.innerHTML = "Unlike";
+
+  document.querySelector("#like_div").appendChild(unlike_input);
+  document.querySelector("#like-input").style.display = "none";
 }

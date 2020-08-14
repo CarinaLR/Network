@@ -87,12 +87,13 @@ def register(request):
 
 
 def profile(request, username):
+    print("reach profile page")
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     user = request.user
-    print("_user ->", user)
+
     profile_user = get_object_or_404(User, username=username)
-    print("profile_user ->", profile_user)
+
     # Get querySet for user posts, with the most recent posts first.
     posts = Post.objects.filter(
         username=profile_user).order_by("-timestamp").all()
@@ -100,11 +101,11 @@ def profile(request, username):
     # Get length of querySet for all followers, indicator of how many followers the user has.
     followers = Follow.objects.filter(follower=profile_user)
     followers_list = len(followers)
-    print("followers", followers)
+
     # Get length of querySet for all following, indicator of how many users the user follows.
     following = Follow.objects.filter(following=profile_user)
     following_list = len(following)
-    print("following", following)
+
     # Get length of querySet for follows between users.
     follows = Follow.objects.filter(
         following=user, follower=profile_user)
@@ -208,6 +209,7 @@ def posts(request):
 
 @login_required
 def post(request, post_id):
+    print("reach post page")
     queryset = Post.objects.all()
     username = request.user
     # Query for requested post
@@ -224,8 +226,8 @@ def post(request, post_id):
         post_timestamp = post.timestamp
         response = {"post_id": post_id,
                     "post_content": post_content, "post_timestamp": post_timestamp}
-        print("response ->", response)
-        edit_post(request, post_id)
+        # Pass post_id to edit_post
+        # edit_post(request, post_id)
         for post in queryset:
             if post.id == post_id:
                 return JsonResponse(response, safe=False)
@@ -251,6 +253,7 @@ def userposts(request, userposts):
 
 
 def follow_profile(request, post_id):
+    print("reach follow_profile page")
     # Set variables for current user
     current_user = request.user
     # Set variables for user post
@@ -262,35 +265,30 @@ def follow_profile(request, post_id):
         following=current_user, follower=owner_post)
     follow.save()
     follower = Follow.objects.filter(following=current_user)
-    print("follower ->", follower)
+
     following = Follow.objects.filter(follower=current_user)
-    print("following ->", following)
+
     follows = Follow.objects.filter(
         follower=current_user, following=owner_post)
     total_follower = len(follower)
-    print("total_follower ->", total_follower)
+
     total_following = len(following)
-    print("total_following ->", total_following)
 
     return HttpResponseRedirect(reverse("index"))
 
 
+@csrf_exempt
 def edit_post(request, post_id):
-    # Get querySet for all posts, with the most recent posts first.
-    all_post = Post.objects.order_by("-timestamp").all()
-    # Save variable.
-    save = request.POST.get("save")
-    # Get new content and save as content for edited post.
-    if request.method == "POST":
-        if save:
-            get_post = Post.object.get(pk=post_id)
-            print("post_by_id ->", get_post)
-            new_content = request.POST["content"]
-            print("post_new_content ->", new_content)
-            post.content = new_content
-            print("post_edited ->", post)
-            # post.save()
+    print("i'm here, post_id", post_id)
 
-    return render(request, "network/index.html", {
-        "posts": all_post,
-    })
+    # Get post by id.
+    get_post = Post.objects.get(pk=post_id)
+    print("post_by_id ->", get_post)
+    # Block to handle PUT request.
+    if request.method == "PUT":
+        print("pass request PUT")
+        # Get data from fetch, update content and save.
+        data = json.loads(request.body)
+        get_post.content = data["content"]
+        get_post.save()
+    return HttpResponse(status=204)

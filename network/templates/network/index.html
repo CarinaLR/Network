@@ -13,7 +13,7 @@
             <p class="timeInfo">{{ post.timestamp}}</p>
                 <div id= "like_div">
                 <p class="timeInfo"> Likes: 0 </p>
-                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like" onclick="like_button()">Like</button>
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like" onclick="like_button({{ post.id }})">Like</button>
                 </div>
                 <div class="follow_profile">
                 {% if user.is_authenticated %}

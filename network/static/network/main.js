@@ -84,7 +84,11 @@ function update_post(post_obj) {
   };
 }
 
-function like_button() {
+function like_button(post_id) {
+  console.log("like-post_id - ", post_id);
+  // Get request by id.
+  fetch(`/like_post/${post_id}`);
+
   var count = 0;
   // Set function to make count
   const onClick = () => {

@@ -291,3 +291,30 @@ def edit_post(request, post_id):
         get_post.content = data["content"]
         get_post.save()
     return HttpResponse(status=204)
+
+
+def like_post(request, post_id):
+    print("reach like_post in views")
+    user = request.user
+    post = Post.objects.get(pk=post_id)
+    print("only post - ", post)
+    if request.method == "GET":
+        if user in post.likes.all():
+            post.likes.remove(user)
+            like = Like.objects.get(userpost=post, user=user)
+            print("should be deleted")
+            # like.delete()
+        else:
+            like = Like.objects.get_or_create(userpost=post, user=user)
+            post.likes.add(user)
+            print("should be saved")
+            # post.save()
+
+        likes = Like.objects.filter(user=user)
+        print("LIKES - ", likes)
+        total_likes = len(likes)
+        print("TOTAL-LIKES - ", total_likes)
+        for like in likes:
+            print("only-like ", like.userpost)
+
+        return HttpResponse('Success')

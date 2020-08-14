@@ -226,8 +226,7 @@ def post(request, post_id):
         post_timestamp = post.timestamp
         response = {"post_id": post_id,
                     "post_content": post_content, "post_timestamp": post_timestamp}
-        # Pass post_id to edit_post
-        # edit_post(request, post_id)
+
         for post in queryset:
             if post.id == post_id:
                 return JsonResponse(response, safe=False)

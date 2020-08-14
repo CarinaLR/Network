@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   document
-    .querySelector("#show_posts")
-    .addEventListener("click", () => load_posts());
-  document
     .querySelector("#edit_profile")
     .addEventListener("click", () => edit_profile());
   document
@@ -12,12 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelector("#edit_post")
     .addEventListener("click", () => edit_post(post_id));
 });
-
-function load_posts() {
-  // Show more post and hide sample
-  document.querySelector("#post-view").style.display = "block";
-  document.querySelector("#compose-post").style.display = "none";
-}
 
 function edit_profile() {
   // Show more edit profile and hide user profile

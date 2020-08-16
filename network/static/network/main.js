@@ -103,16 +103,5 @@ function like_button(post_id) {
   onClick();
   console.log("counting -", count);
 
-  // // Create Unlike button to show instead of like button.
-  // const unlike_input = document.createElement("button");
-  // unlike_input.id = "unlike-input";
-  // unlike_input.type = "submit";
-  // unlike_input.className = "btn btn-sm btn-outline-primary";
-  // unlike_input.value = "Unlike";
-  // unlike_input.name = "unlike";
-  // unlike_input.innerHTML = "Unlike";
-
-  // //Hide Like button and show Unlike button.
-  // document.querySelector("#like_div").appendChild(unlike_input);
-  // document.querySelector("#like-input").style.display = "none";
+  return false;
 }

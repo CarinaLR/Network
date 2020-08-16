@@ -87,27 +87,32 @@ function update_post(post_obj) {
 function like_button(post_id) {
   console.log("like-post_id - ", post_id);
   // Get request by id.
-  fetch(`/like_post/${post_id}`);
-
+  fetch(`/like_post/${post_id}`)
+    .then((response) => response.json())
+    .then((response) => {
+      console.log("The response -", response);
+      onClick(response);
+    });
   var count = 0;
   // Set function to make count
-  const onClick = () => {
+  const onClick = (response) => {
     count += 1;
+
     // document.getElementById("clicks").innerHTML = count;
   };
   onClick();
   console.log("counting -", count);
 
-  // Create Unlike button to show instead of like button.
-  const unlike_input = document.createElement("button");
-  unlike_input.id = "unlike-input";
-  unlike_input.type = "submit";
-  unlike_input.className = "btn btn-sm btn-outline-primary";
-  unlike_input.value = "Unlike";
-  unlike_input.name = "unlike";
-  unlike_input.innerHTML = "Unlike";
+  // // Create Unlike button to show instead of like button.
+  // const unlike_input = document.createElement("button");
+  // unlike_input.id = "unlike-input";
+  // unlike_input.type = "submit";
+  // unlike_input.className = "btn btn-sm btn-outline-primary";
+  // unlike_input.value = "Unlike";
+  // unlike_input.name = "unlike";
+  // unlike_input.innerHTML = "Unlike";
 
-  //Hide Like button and show Unlike button.
-  document.querySelector("#like_div").appendChild(unlike_input);
-  document.querySelector("#like-input").style.display = "none";
+  // //Hide Like button and show Unlike button.
+  // document.querySelector("#like_div").appendChild(unlike_input);
+  // document.querySelector("#like-input").style.display = "none";
 }

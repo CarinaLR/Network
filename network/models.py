@@ -29,7 +29,7 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(
-        'User', default=0, blank=True, related_name='likes')
+        'User', default=None, blank=True, related_name='likes')
 
     objects = PostSerializer()
 
@@ -50,9 +50,20 @@ class Post(models.Model):
         return self.content
 
 
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+
 class Like(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     userpost = models.ForeignKey('Post', on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES,
+                             default=' Like ', max_length=10)
+
+    def _str_(self):
+        return str(self.userpost)
 
 
 class Follow(models.Model):

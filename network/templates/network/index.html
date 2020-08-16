@@ -11,10 +11,16 @@
             <h3 id="titlePage">{{ post.username }}</h3>
             <p class="inputText">{{ post.content }}</p>
             <p class="timeInfo">{{ post.timestamp}}</p>
-                <div id= "like_div">
-                <p class="timeInfo"> Likes: 0 </p>
-                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like" onclick="like_button({{ post.id }})">Like</button>
-                </div>
+            <p class="timeInfo">Likes: {{ post.likes.all.count}}</p>
+            <form action="{% url 'like_post' post.id %}" method="POST" class="ui form">
+                {% csrf_token %}
+                <input type="hidden", name="post_id", value={{ post.id}}>
+                {% if user not in post.likes.all %}
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like">Like</button>
+                {% else %}
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Unlike" name="like">Unlike</button>
+                {% endif %}
+            </form>
                 <div class="follow_profile">
                 {% if user.is_authenticated %}
                 <form action="{% url 'follow_profile' post.id %}" method="POST">

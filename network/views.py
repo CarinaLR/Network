@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.core import serializers
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -295,26 +296,26 @@ def edit_post(request, post_id):
 
 def like_post(request, post_id):
     print("reach like_post in views")
+    # Set user variable.
     user = request.user
-    post = Post.objects.get(pk=post_id)
-    print("only post - ", post)
-    if request.method == "GET":
-        if user in post.likes.all():
-            post.likes.remove(user)
-            like = Like.objects.get(userpost=post, user=user)
-            print("should be deleted")
-            # like.delete()
+    # Block to handle POST request.
+    if request.method == "POST":
+        post_obj = Post.objects.get(pk=post_id)
+        print("post_obj -> ", post_obj.likes.all)
+        # Block to handle user in post if remove or add.
+        if user in post_obj.likes.all():
+            post_obj.likes.remove(user)
         else:
-            like = Like.objects.get_or_create(userpost=post, user=user)
-            post.likes.add(user)
-            print("should be saved")
-            # post.save()
+            post_obj.likes.add(user)
 
-        likes = Like.objects.filter(user=user)
-        print("LIKES - ", likes)
-        total_likes = len(likes)
-        print("TOTAL-LIKES - ", total_likes)
-        for like in likes:
-            print("only-like ", like.userpost)
+        like, created = Like.objects.get_or_create(
+            userpost_id=post_id, user=user)
+        # Change values for like object.
+        if not created:
+            if like.value == "Like":
+                like.value = "Unlike"
+            else:
+                like.value = "Like"
 
-        return HttpResponse('Success')
+        like.save()
+        return HttpResponseRedirect(reverse("index"))

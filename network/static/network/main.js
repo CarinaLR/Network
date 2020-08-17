@@ -3,13 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelector("#edit_profile")
     .addEventListener("click", () => edit_profile());
   document
-    .querySelector("#follow_profile")
-    .addEventListener("click", () => unfollow_button());
-  document
     .querySelector("#edit_post")
     .addEventListener("click", () => edit_post(post_id));
   document
-    .querySelector(".like-button")
+    .querySelector("#like-button")
     .addEventListener("click", () => like_button());
 });
 
@@ -17,11 +14,6 @@ function edit_profile() {
   // Show more edit profile and hide user profile
   document.querySelector("#post-view").style.display = "none";
   document.querySelector("#compose-post").style.display = "block";
-}
-
-function unfollow_button() {
-  // Show more edit profile and hide user profile
-  document.querySelector("#follow_profile").style.display = "none";
 }
 
 function edit_post(post_id) {
@@ -85,23 +77,13 @@ function update_post(post_obj) {
 }
 
 function like_button(post_id) {
-  console.log("like-post_id - ", post_id);
+  console.log("post_id like-button", post_id);
   // Get request by id.
   fetch(`/like_post/${post_id}`)
     .then((response) => response.json())
     .then((response) => {
       console.log("The response -", response);
-      onClick(response);
     });
-  var count = 0;
-  // Set function to make count
-  const onClick = (response) => {
-    count += 1;
-
-    // document.getElementById("clicks").innerHTML = count;
-  };
-  onClick();
-  console.log("counting -", count);
-
+  // Prevent reloading the page.
   return false;
 }

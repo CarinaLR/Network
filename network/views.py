@@ -117,6 +117,7 @@ def profile(request, username):
     posts = Post.objects.filter(
         username=profile_user).order_by("-timestamp").all()
     post_list = len(posts)
+
     # Get length of querySet for all followers, indicator of how many followers the user has.
     followers = Follow.objects.filter(follower=profile_user)
     followers_list = len(followers)
@@ -252,6 +253,7 @@ def post(request, post_id):
 
 
 def userposts(request, userposts):
+    print("reach-userpost")
     # Filter post returned based on userposts
     if userposts == "userposts":
         posts = Post.objects.filter(
@@ -276,11 +278,11 @@ def follow_profile(request, post_id):
     follow = Follow.objects.create(
         following=current_user, follower=owner_post)
     follow.save()
-    print("follow -", follow)
+
     follower = Follow.objects.filter(following=current_user)
-    print("following -", follower)
+
     following = Follow.objects.filter(follower=current_user)
-    print("following -", following)
+
     follows = Follow.objects.filter(
         follower=current_user, following=owner_post)
     total_follower = len(follower)
@@ -296,7 +298,7 @@ def edit_post(request, post_id):
 
     # Get post by id.
     get_post = Post.objects.get(pk=post_id)
-    print("post_by_id ->", get_post)
+
     # Block to handle PUT request.
     if request.method == "PUT":
         print("pass request PUT")
@@ -309,12 +311,24 @@ def edit_post(request, post_id):
 
 def like_post(request, post_id):
     print("reach like_post in views")
-    # Set user variable.
+    # Set user variables.
     user = request.user
+    post = Post.objects.get(pk=post_id)
+
+    # Return post contents
+    if request.method == "GET":
+        post_id = post.id
+        post_username = post.username
+        post_content = post.content
+        post_timestamp = post.timestamp
+        response = {"post_id": post_id,
+                    "post_content": post_content, "post_timestamp": post_timestamp}
+        return JsonResponse(response, safe=False)
+
     # Block to handle POST request.
     if request.method == "POST":
         post_obj = Post.objects.get(pk=post_id)
-        print("post_obj -> ", post_obj.likes.all)
+
         # Block to handle user in post if remove or add.
         if user in post_obj.likes.all():
             post_obj.likes.remove(user)

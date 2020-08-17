@@ -43,7 +43,8 @@
      </header>
      <hr>
      <div class="compose-edit">
-      <h3 id="titlePage"> New Post </h3>
+      <h3 id="titlePage"> Edit Post </h3>
+      <small class="inputText">Select a post to edit and make changes in the textarea, then click "Save" button.</small>
         <form id="post-form" class="form-group" method="POST">
         {% csrf_token %}
         <textarea id="content" class="form-group" type="text" name="content"></textarea>

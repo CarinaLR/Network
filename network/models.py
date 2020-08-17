@@ -9,20 +9,6 @@ class User(AbstractUser):
     pass
 
 
-class PostSerializer(models.Manager):
-    def get_posts(self, *args, **kwargs):
-        return self.all()
-
-    def get_post(self, post_id, *args, **kwargs):
-        return get_object_or_404(self, id=post_id)
-
-    def get_user_posts(self, username, *args, **kwargs):
-        return self.filter(username=username)
-
-    def get_user_post(self, post_id, user, *args, **kwargs):
-        return get_object_or_404(self, pk=post_id, username=user)
-
-
 class Post(models.Model):
     username = models.ForeignKey(
         "User", default=1, on_delete=models.CASCADE, related_name="posts")
@@ -30,8 +16,6 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(
         'User', default=None, blank=True, related_name='likes')
-
-    objects = PostSerializer()
 
     def serialize(self):
         return {

@@ -4,6 +4,16 @@
 {% block body %}
     <h1 id="titleLink"> Your Network</h1>
     <hr>
+    <div class="compose-post">
+    <h3 id="titlePage"> New Post </h3>
+        <form id="post-form" class="form-group" method="POST">
+        {% csrf_token %}
+        <textarea id="content" class="form-group" name="content"></textarea>
+        <br>
+        <input id="post-button" type="submit" class="btn btn-primary" value="Post" name="post"/>
+        </form>
+    </div>
+    <br>
     <div id="post-view">
         <div id="post-table">
         {% for post in page_obj %}
@@ -21,14 +31,15 @@
                 <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Unlike" name="like">Unlike</button>
                 {% endif %}
             </form>
-                <div class="follow_profile">
-                {% if user.is_authenticated %}
-                <form action="{% url 'follow_profile' post.id %}" method="POST">
+            <form action="{% url 'follow_profile' post.id %}" method="POST" class="ui form follow_profile">
                 {% csrf_token %}
-                <input class="btn btn-sm btn-outline-primary" class="follow_profile" id="follow_profile" type="submit" name="follow_profile" value="Follow">
-                </form>
+                <input type="hidden", name="post_id", value={{ post.id}}>
+                {% if post.username not in user.following %}
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Follow" name="follow_profile">Follow</button>
+                {% else %}
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Unfollow" name="follow_profile">Unfollow</button>
                 {% endif %}
-                </div>
+            </form>
             </div>
         {% endfor %}
         </div>

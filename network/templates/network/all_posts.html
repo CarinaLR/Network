@@ -4,20 +4,6 @@
 {% block body %}
     <h1 id="titleLink">All Posts</h1>
     <hr>
-    <div class="compose-post">
-    <h3 id="titlePage"> New Post </h3>
-        <form id="post-form" class="form-group" method="POST">
-        {% csrf_token %}
-        <textarea id="content" class="form-group" name="content"></textarea>
-        <br>
-        <input id="post-button" type="submit" class="btn btn-primary" value="Post" name="post"/>
-        </form>
-    </div>
-    <br>
-    <div class="compose-post">
-        <h3 id="titlePage">{{ username }}</h3>
-        <p class="inputText">{{ content }}</p>
-    </div>
     <div id="post-view">
         <div id="post-table">
         {% for post in page_obj %}
@@ -25,13 +11,25 @@
             <h3 id="titlePage">{{ post.username }}</h3>
             <p class="inputText">{{ post.content }}</p>
             <p class="timeInfo">{{ post.timestamp}}</p>
-            <p class="timeInfo"> Likes: 0 </p>
-                <div class="follow_profile">
-                <form>
+            <p class="timeInfo">Likes: {{ post.likes.all.count}}</p>
+            <form action="{% url 'like_post' post.id %}" method="POST" class="ui form">
                 {% csrf_token %}
-                <button class="btn btn-sm btn-outline-primary" class="follow_profile">Follow</button>
-                </form>
-                </div>
+                <input type="hidden", name="post_id", value={{ post.id}}>
+                {% if user not in post.likes.all %}
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Like" name="like">Like</button>
+                {% else %}
+                <button id="like-input" type="submit" class="btn btn-sm btn-outline-primary" value="Unlike" name="like">Unlike</button>
+                {% endif %}
+            </form>
+            <form action="{% url 'follow_profile' post.id %}" method="POST" class="ui form follow_profile">
+                {% csrf_token %}
+                <input type="hidden", name="post_id", value={{ post.id}}>
+                {% if post.username not in user.following %}
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Follow" name="follow_profile">Follow</button>
+                {% else %}
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Unfollow" name="follow_profile">Unfollow</button>
+                {% endif %}
+            </form>
             </div>
         {% endfor %}
         </div>

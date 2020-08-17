@@ -13,8 +13,14 @@ from .models import User, Post, Like, Follow
 
 
 def index(request):
+    # Set variables and current values
+    username = request.user
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
+    # Get a user instance
+    user = get_object_or_404(User, username=username)
+    content = request.POST.get("content")
+    post = request.POST.get("post")
     # Show 10 posts per page.
     paginator = Paginator(all_post, 10)
     page_number = request.GET.get('page')
@@ -22,8 +28,20 @@ def index(request):
 
     follow = request.POST.get("follow_profile")
     current_user = request.user
-    # Activate button to save followers and following.
-    if request.method == "POST":
+    if request.method == 'POST':
+        if post:
+            # Get new content for post
+            new_content = request.POST.get("content")
+            # Get content and save as post, passing new content and user instance.
+            post = Post.objects.create(username=user, content=new_content)
+            post.save()
+            return render(request, "network/index.html", {
+                "username": post.username,
+                "content": post.content,
+                "posts": all_post,
+                "page_obj": page_obj
+            })
+        # Activate button to save followers and following.
         if follow:
             post_username = request.POST.get("follow_profile")
 
@@ -129,7 +147,7 @@ def following(request, username):
         username = get_object_or_404(User, username=username)
         print("user ->", username)
         follows = Follow.objects.filter(follower=username)
-        print("follows ->", len(follows))
+
         # Get querySet for all posts, with the most recent posts first.
         posts = Post.objects.order_by("-timestamp").all()
 
@@ -148,15 +166,9 @@ def following(request, username):
                 postj_id = post_j.id
                 count = 1
                 if posti_id == postj_id:
-                    print("post i - ", posti_id)
-                    print("post j - ", postj_id)
                     count += 1
-                    print("count - ", count)
                 if count > 1:
                     posts_to_follow.remove(post_j)
-
-        # for i, c in enumerate(posts_to_follow):
-        #     print(" this it is: ", i, c, type(c))
 
         # Show 10 posts per page.
         paginator = Paginator(posts_to_follow, 5)
@@ -264,10 +276,11 @@ def follow_profile(request, post_id):
     follow = Follow.objects.create(
         following=current_user, follower=owner_post)
     follow.save()
+    print("follow -", follow)
     follower = Follow.objects.filter(following=current_user)
-
+    print("following -", follower)
     following = Follow.objects.filter(follower=current_user)
-
+    print("following -", following)
     follows = Follow.objects.filter(
         follower=current_user, following=owner_post)
     total_follower = len(follower)

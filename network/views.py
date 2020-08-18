@@ -18,7 +18,7 @@ def index(request):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     # Get a user instance
-    user = get_object_or_404(User, username=username)
+    # user = get_object_or_404(User, username=username)
     content = request.POST.get("content")
     post = request.POST.get("post")
     # Show 10 posts per page.
@@ -33,7 +33,7 @@ def index(request):
             # Get new content for post
             new_content = request.POST.get("content")
             # Get content and save as post, passing new content and user instance.
-            post = Post.objects.create(username=user, content=new_content)
+            post = Post.objects.create(username=username, content=new_content)
             post.save()
             return render(request, "network/index.html", {
                 "username": post.username,
@@ -145,7 +145,8 @@ def profile(request, username):
 @login_required
 def following(request, username):
     if request.method == 'GET':
-        username = get_object_or_404(User, username=username)
+        # username = get_object_or_404(User, username=username)
+        username = request.user
         print("user ->", username)
         follows = Follow.objects.filter(follower=username)
 

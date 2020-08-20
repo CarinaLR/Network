@@ -13,23 +13,25 @@ from .models import User, Post, Like, Follow
 
 
 def index(request):
-    # Set variables and current values
+    # Get a user instance
     username = request.user
+    user = authenticate(request, username=username)
+    following = Follow.objects.filter(following=user)
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
-    # Get a user instance
+    # Set variables and current values
     content = request.POST.get("content")
     post = request.POST.get("post")
+    follow = request.POST.get("follow_profile")
+
     # Show 10 posts per page.
     paginator = Paginator(all_post, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    follow = request.POST.get("follow_profile")
-
     if request.method == 'POST':
         user = get_object_or_404(User, username=username)
-        following = Follow.objects.filter(following=user)
+
         if post:
             # Get new content for post
             new_content = request.POST.get("content")
@@ -40,7 +42,6 @@ def index(request):
                 "username": post.username,
                 "content": post.content,
                 "posts": all_post,
-                "following": following,
                 "page_obj": page_obj
             })
         # Activate button to save followers and following.
@@ -49,6 +50,7 @@ def index(request):
 
     return render(request, "network/index.html", {
         "posts": all_post,
+        "following": following,
         "page_obj": page_obj
     })
 
@@ -149,7 +151,6 @@ def following(request, username):
     if request.method == 'GET':
         username = request.user
         print("user ->", username)
-        follows = Follow.objects.filter(follower=username)
 
         # Get querySet for all posts, with the most recent posts first.
         posts = Post.objects.order_by("-timestamp").all()
@@ -157,8 +158,9 @@ def following(request, username):
         posts_to_follow = []
 
         for post in posts:
+            follows = Follow.objects.filter(following=post.username)
             for follower in follows:
-                if follower.following == post.username:
+                if follower.following == post.username and follower.following != username:
                     posts_to_follow.append(post)
 
         # Iterate over appended posts
@@ -272,10 +274,12 @@ def follow_profile(request, post_id):
     print("reach follow_profile page")
     # Set variables for current user
     current_user = request.user
+
     # Set variables for user post
     post = Post.objects.get(pk=post_id)
     user_post = post.username
     owner_post = get_object_or_404(User, username=user_post)
+
     # Set variables for follows, create object and save it
     follow = Follow.objects.create(
         following=current_user, follower=owner_post)

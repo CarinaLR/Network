@@ -110,7 +110,6 @@ def register(request):
 
 
 def profile(request, username):
-    print("reach profile page")
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     user = request.user
@@ -150,7 +149,6 @@ def profile(request, username):
 def following(request, username):
     if request.method == 'GET':
         username = request.user
-        print("user ->", username)
 
         # Get querySet for all posts, with the most recent posts first.
         posts = Post.objects.order_by("-timestamp").all()
@@ -229,7 +227,6 @@ def posts(request):
 
 @login_required
 def post(request, post_id):
-    print("reach post page")
     queryset = Post.objects.all()
     username = request.user
     # Query for requested post
@@ -259,7 +256,6 @@ def post(request, post_id):
 
 
 def userposts(request, userposts):
-    print("reach-userpost")
     # Filter post returned based on userposts
     if userposts == "userposts":
         posts = Post.objects.filter(
@@ -273,7 +269,6 @@ def userposts(request, userposts):
 
 
 def follow_profile(request, post_id):
-    print("reach follow_profile page")
     # Set variables for current user
     current_user = request.user
 
@@ -302,14 +297,11 @@ def follow_profile(request, post_id):
 
 @csrf_exempt
 def edit_post(request, post_id):
-    print("i'm here, post_id", post_id)
-
     # Get post by id.
     get_post = Post.objects.get(pk=post_id)
 
     # Block to handle PUT request.
     if request.method == "PUT":
-        print("pass request PUT")
         # Get data from fetch, update content and save.
         data = json.loads(request.body)
         get_post.content = data["content"]
@@ -318,7 +310,6 @@ def edit_post(request, post_id):
 
 
 def like_post(request, post_id):
-    print("reach like_post in views")
     # Set user variables.
     user = request.user
     post = Post.objects.get(pk=post_id)

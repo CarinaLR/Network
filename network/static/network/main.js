@@ -17,7 +17,6 @@ function edit_profile() {
 }
 
 function edit_post(post_id) {
-  console.log("post_id -> ", post_id);
   post_id = post_id;
   // Block to get info from post
   if (post_id) {
@@ -39,10 +38,8 @@ function edit_post(post_id) {
 }
 
 function post_view(response) {
-  console.log("IDK ->", response);
   // Get post content to populate textarea
   let content_post = response.post_content;
-  console.log("content ->", content_post);
 
   let new_textarea = document.querySelector("#content");
   new_textarea.innerHTML = content_post;
@@ -52,14 +49,14 @@ function post_view(response) {
 
 function update_post(post_obj) {
   let post = post_obj;
-  console.log("post -- ", post);
+
   let post_id = post.post_id;
-  console.log("post-id -- ", post_id);
+
   // On submit send information to update post.
   document.querySelector("#post-form").onsubmit = () => {
     // Get value from input to update content.
     let new_content = document.getElementById("content").value;
-    console.log("new_content -- ", new_content);
+
     fetch(`/edit_post/${post_id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -77,7 +74,6 @@ function update_post(post_obj) {
 }
 
 function like_button(post_id) {
-  console.log("post_id like-button", post_id);
   // Get request by id.
   fetch(`/like_post/${post_id}`)
     .then((response) => response.json())

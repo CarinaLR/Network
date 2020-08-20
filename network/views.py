@@ -162,6 +162,8 @@ def following(request, username):
             for follower in follows:
                 if follower.following == post.username and follower.following != username:
                     posts_to_follow.append(post)
+                if post.id in posts_to_follow:
+                    print("post.id", post.id)
 
         # Iterate over appended posts
 

@@ -34,10 +34,10 @@
             <form action="{% url 'follow_profile' post.id %}" method="POST" class="ui form follow_profile">
                 {% csrf_token %}
                 <input type="hidden", name="post_id", value={{ post.id}}>
-                {% if post.username not in user.following %}
-                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Follow" name="follow_profile">Follow</button>
+                {% if post.username not in following %}
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Follow" name="follow_profile">Unfollow</button>
                 {% else %}
-                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Unfollow" name="follow_profile">Unfollow</button>
+                <button id="follow_profile" type="submit" class="btn btn-sm btn-outline-primary" value="Unfollow" name="follow_profile">Follow</button>
                 {% endif %}
             </form>
             </div>

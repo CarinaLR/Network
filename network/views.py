@@ -18,7 +18,6 @@ def index(request):
     # Get querySet for all posts, with the most recent posts first.
     all_post = Post.objects.order_by("-timestamp").all()
     # Get a user instance
-    # user = get_object_or_404(User, username=username)
     content = request.POST.get("content")
     post = request.POST.get("post")
     # Show 10 posts per page.
@@ -27,8 +26,10 @@ def index(request):
     page_obj = paginator.get_page(page_number)
 
     follow = request.POST.get("follow_profile")
-    current_user = request.user
+
     if request.method == 'POST':
+        user = get_object_or_404(User, username=username)
+        following = Follow.objects.filter(following=user)
         if post:
             # Get new content for post
             new_content = request.POST.get("content")
@@ -39,6 +40,7 @@ def index(request):
                 "username": post.username,
                 "content": post.content,
                 "posts": all_post,
+                "following": following,
                 "page_obj": page_obj
             })
         # Activate button to save followers and following.
@@ -145,7 +147,6 @@ def profile(request, username):
 @login_required
 def following(request, username):
     if request.method == 'GET':
-        # username = get_object_or_404(User, username=username)
         username = request.user
         print("user ->", username)
         follows = Follow.objects.filter(follower=username)
